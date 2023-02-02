@@ -94,48 +94,62 @@ for (var in names(scores)) {
 ## Create a vector of 100 employees ("Employee 1", "Employee 2", ... "Employee
 ## 100")
 ## Hint: use 'paste()` or `str_c`
+name <- c("Employee")
+numbers <- c(1:100)
 
+employees <- paste(name, numbers)
 
 ## Create a random vector of their 2021 salaries.
 ## Hint: you may use the runif function to create uniform random numbers,
 ## e.g. 'runif(100, 60, 120)' creates 100 random numbers between 60 and 120
-
+salaries21 <- runif(100, 30, 120)
 
 ## Create a random vector of 2022 salaries that are typically
 ## higher than the 2014 salaires (use runif again).
 ## For instance, if you create random numbers between 65 and 130, then 2022
 ## salaries tend to be larger than 2021 salaries.
-
+salaries22 <- runif(100, 40, 130)
 
 ## Create a data.frame 'salaries' by combining the vectors you just made
-
+salaries_df <- data.frame(employees, salaries21, salaries22)
+salaries_df
 
 ## Create a column 'raise' that stores the size of the
 ## raise between 2021 and 2022
-
+salaries_df[["raise"]] <- salaries22 > salaries21
+salaries_df
 
 ## Retrieve values from your data frame to answer the following questions:
 ##
 ## What was the 2015 salary of employee 57
-
+employee_5 <- salaries[salaries$employees == "Employee 5", "salaries21"]
+employee_5
 
 ## Now round the answer down to two digits after comma
 ## check out 'round()' function
-
+employee_5_round <- round(employee_5, 2)
+employee_5_round
 
 ## How many employees got a raise?
-
+raise_count <- length(salaries[salaries_df$raise == TRUE])
+raise_count
 
 ## What was the value of the highest raise?
 ## Round the number to two digits!
-
+salaries_df$amount_raised <- salaries_df$salaries22 - salaries_df$salaries21
+max_raise <- round(max(salaries_df$amount_raised), 2)
+max_raise
 
 ## What was the name of the employee who recieved the highest raise?
+salaries_df[salaries_df$amount_raised == max(salaries_df$amount_raised), "employees"]
 
 
 ## What was the average salary increase?
 ## Round the number!
-
+avg_increase <- mean(salaries_df$amount_raised)
+avg_increase
 
 ## For people who did not get a raise, how much money did they lose?
 ## Round the number!
+salary_decrease <- salaries_df[salaries_df$raise == FALSE, "amount_raised"]
+salary_decrease
